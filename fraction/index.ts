@@ -36,10 +36,21 @@ class Fraction {
     const den = this.denominateur * fraction.denominateur;
     return new Fraction(num, den);
   }
+
+  static pgcd(a: number, b:number) : number {
+    if (b === 0) return a
+    return Fraction.pgcd(b,a %b)
+  }
+
+  simplyfy() {
+    const pgcd = Fraction.pgcd(this.numerateur, this.denominateur)
+    this.numerateur /= pgcd
+    this.denominateur /= pgcd
+  }
 }
 // inférence de type  quand on met une valeur à un attribut, celui-ci detecte automatiquement le type
 
 const tiers = new Fraction(1, 3);
 const quart = new Fraction(1, 4);
 
-console.log(tiers.addition(quart));
+console.log(Fraction.pgcd(132,148))

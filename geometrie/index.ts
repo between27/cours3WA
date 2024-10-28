@@ -1,13 +1,20 @@
+interface Forme {
+    centre: Point
+    aire(): number
+    perimetre() : number
+}
+
+
 class Point {
     constructor(
-        x: number,
-        y: number
+        public x: number,
+        public y: number
     ){}
 }
-class Cercle {
+class Cercle implements Forme {
 
     
-    constructor(public rayon: number, centre: Point) {}
+    constructor(public rayon: number, public centre: Point) {}
 
 
     aire() {

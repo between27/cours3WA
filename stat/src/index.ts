@@ -1,32 +1,31 @@
 import { MatchResult } from "./MatchResult"
-import { CsvFileReader } from "./heritage/CsvFileReader"
-import { DateUtils } from "./utils"
+import { CsvFileReader } from "./composition/CsvFileReader"
+import { MatchReader } from "./composition/MatchReader"
+import { Summary } from "./composition/Summary"
+import { AverageGoalsAnalysis } from "./composition/analyzers/AverageGoalsAnalysis"
+import { WinsAnalysis } from "./composition/analyzers/WinsAnalysis"
+import { ConsoleReport } from "./composition/output-target/ConsoleReport"
+import { HtmlReport } from "./composition/output-target/HtmlReport"
 
-export interface Data {
-    date: Date
-    homeTeam: string
-    awayTeam: string
-    homeScore: number
-    awayScore: number
-    matchResult: MatchResult
-    refName: string
-}
+const csv = "./src/football.csv"
+const team = "Chelsea"
+const csvFileReader = new CsvFileReader(csv)
+const matchReader = new MatchReader(csvFileReader)
+matchReader.load()
 
+const average = new AverageGoalsAnalysis(team)
+const winsAnalysis = new WinsAnalysis(team)
+const consoleReport = new ConsoleReport
+const htmlReport = new HtmlReport
+const summaryAverage = new Summary(average, consoleReport)
+const summaryWins = new Summary(winsAnalysis, consoleReport)
+const summaryAverageHtml = new Summary(average, htmlReport)
+let matches = matchReader.matches
 
-
-const csvFileReader = new CsvFileReader("./src/football.csv")
-csvFileReader.read()
-
-
-let manUnitedWins = 0
-let manUnited ="Man United"
-csvFileReader.data.forEach(match => {
-    if (match[1] === manUnited && match[5] === MatchResult.HOMEWIN ) manUnitedWins++
-    else if (match[2] === manUnited && match[5] === MatchResult.AWAYWIN ) manUnitedWins++
-})
+summaryAverage.buildAndPrint(matches)
+summaryWins.buildAndPrint(matches)
+//summaryAverageHtml.buildAndPrint(matches)
 
 
 
 
-console.log(`Man United won ${manUnitedWins} games`)
-console.log(csvFileReader.data)

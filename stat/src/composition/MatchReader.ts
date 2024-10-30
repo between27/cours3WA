@@ -9,6 +9,12 @@ export class MatchReader {
 
   constructor(public reader: DataReader) {}
 
+  static fromCsv(filename: string) {
+    return new MatchReader(
+        new CsvFileReader(filename)
+    )
+  }
+
   load(): void {
     this.reader.read();
     this.matches = this.reader.data.map((line) => {

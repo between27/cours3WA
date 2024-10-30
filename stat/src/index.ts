@@ -10,7 +10,7 @@ import { HtmlReport } from "./composition/output-target/HtmlReport"
 const csv = "./src/football.csv"
 const team = "Chelsea"
 const csvFileReader = new CsvFileReader(csv)
-const matchReader = new MatchReader(csvFileReader)
+const matchReader = MatchReader.fromCsv(csv)
 matchReader.load()
 
 const average = new AverageGoalsAnalysis(team)

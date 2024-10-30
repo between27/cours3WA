@@ -14,6 +14,6 @@ run(matches: MatchData[]): string {
         if (match[1] === this.teamName) this.goals+= match[3]
         else if (match[2] === this.teamName) this.goals+= match[4]
     })
-    return `${this.teamName} has a goals/game average of ${this.goals/this.matchesPlayed}`
+    return `${this.teamName} has a goals/game average of ${Math.round(this.goals/this.matchesPlayed)}`
 }
 }
